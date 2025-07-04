@@ -3,15 +3,11 @@ import {
   ExecutionContext,
   Injectable,
   SetMetadata,
-  Logger,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-const ROLES_NAMESPACE = 'https://zooapi.com/roles';
-
 @Injectable()
 export class RolesGuard implements CanActivate {
-  private readonly logger = new Logger(RolesGuard.name);
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -21,21 +17,15 @@ export class RolesGuard implements CanActivate {
         context.getClass(),
       ]) || [];
     const { user } = context.switchToHttp().getRequest();
+    const roles: string[] = user['https://zooapi.com/roles'];
 
-    this.logger.debug('User object:', user);
-    this.logger.debug('Required roles:', requiredRoles);
-
-    const roles: string[] = user[ROLES_NAMESPACE];
-
-    this.logger.debug('User roles:', roles);
+    console.log('👤 User roles:', roles);
+    console.log('🎯 Required roles:', requiredRoles);
 
     const hasAnyRole = () =>
       requiredRoles.some((role) => roles?.includes(role));
 
-    const hasAccess = requiredRoles.length === 0 || hasAnyRole();
-    this.logger.debug('Access granted:', hasAccess);
-
-    return hasAccess;
+    return requiredRoles ? hasAnyRole() : true;
   }
 }
 
