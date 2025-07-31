@@ -17,19 +17,20 @@ import { EnclosModule } from './enclos/enclos.module';
       useFactory: (configService: ConfigService) => {
         const config = {
           type: 'postgres' as const,
-          host: 'localhost',
-          port: 5432,
-          username: 'postgres',
-          password: 'postgres',
-          database: 'zoo',
+          host: configService.get('DB_HOST', 'localhost'),
+          port: parseInt(configService.get('DB_PORT', '5432')),
+          username: configService.get('DB_USERNAME', 'postgres'),
+          password: configService.get('DB_PASSWORD', 'postgres'),
+          database: configService.get('DB_DATABASE', 'zoo'),
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: true, // ❗️dev only
+          synchronize: configService.get('NODE_ENV') === 'development', // ❗️dev only
         };
         console.log('🐘 PostgreSQL Config:', {
           host: config.host,
           port: config.port,
           username: config.username,
           database: config.database,
+          synchronize: config.synchronize,
         });
         return config;
       },
