@@ -23,7 +23,7 @@ import { EnclosModule } from './enclos/enclos.module';
           password: configService.get('DB_PASSWORD', 'postgres'),
           database: configService.get('DB_DATABASE', 'zoo'),
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: configService.get('NODE_ENV') === 'development', // ❗️dev only
+          synchronize: configService.get('NODE_ENV') === 'development',
         };
         console.log('🐘 PostgreSQL Config:', {
           host: config.host,

@@ -25,9 +25,8 @@ export class RolesGuard implements CanActivate {
     const requiredRoles = this.reflector.getAllAndOverride<string[]>('roles', [
       context.getHandler(),
       context.getClass(),
-    ]); // This can be undefined if no @Roles decorator is present.
+    ]);
 
-    // If no specific roles are required for this route, allow access.
     if (!requiredRoles || requiredRoles.length === 0) {
       console.log('✅ No specific roles required, allowing access');
       return true;
@@ -40,7 +39,6 @@ export class RolesGuard implements CanActivate {
     console.log('👤 User roles:', roles);
     console.log('🎯 Required roles:', requiredRoles);
 
-    // Check if user has any of the required roles
     const hasAnyRole = requiredRoles.some((role) => roles?.includes(role));
 
     console.log('🔐 Has required role:', hasAnyRole);

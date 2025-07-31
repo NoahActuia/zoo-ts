@@ -12,11 +12,17 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideAnimations(),
     provideAuth0({
-      domain: 'dev-rkbeore70k0guhoo.us.auth0.com',
-      clientId: 'v3vrmN1YoNbpT0noUABhq1aJpMyby56e', // À remplacer par votre Client ID
+      domain:
+        process.env['NG_APP_AUTH0_DOMAIN'] ||
+        'dev-rkbeore70k0guhoo.us.auth0.com',
+      clientId:
+        process.env['NG_APP_AUTH0_CLIENT_ID'] ||
+        'v3vrmN1YoNbpT0noUABhq1aJpMyby56e',
       authorizationParams: {
-        redirect_uri: 'http://localhost:4200',
-        audience: 'http://localhost:3000',
+        redirect_uri:
+          process.env['NG_APP_AUTH0_REDIRECT_URI'] || 'http://localhost:4200',
+        audience:
+          process.env['NG_APP_AUTH0_AUDIENCE'] || 'http://localhost:3000',
       },
     }),
   ],

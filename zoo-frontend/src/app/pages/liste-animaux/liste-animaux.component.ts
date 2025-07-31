@@ -85,7 +85,6 @@ export class ListeAnimauxComponent implements OnInit {
   soignerAnimal(id: number): void {
     this.api.get<any>(`/animaux/soigner/${id}`).subscribe({
       next: (updatedAnimal) => {
-        // Mettre à jour l'animal dans la liste
         const index = this.dataSource.data.findIndex(
           (animal) => animal.id === id
         );

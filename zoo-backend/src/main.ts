@@ -5,10 +5,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS
   app.enableCors();
 
-  // Add request logging middleware
   app.use((req, res, next) => {
     console.log(`🌐 ${req.method} ${req.url}`);
     console.log('📨 Headers:', {
@@ -19,7 +17,6 @@ async function bootstrap() {
     next();
   });
 
-  // Configure Swagger
   const config = new DocumentBuilder()
     .setTitle('Zoo API')
     .setDescription('The Zoo API description')
