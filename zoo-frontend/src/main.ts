@@ -15,7 +15,7 @@ bootstrapApplication(AppComponent, {
       domain: 'dev-rkbeore70k0guhoo.us.auth0.com',
       clientId: 'v3vrmN1YoNbpT0noUABhq1aJpMyby56e', // À remplacer par votre Client ID
       authorizationParams: {
-        redirect_uri: 'http://localhost:4201',
+        redirect_uri: 'http://localhost:4200',
         audience: 'http://localhost:3000',
       },
     }),

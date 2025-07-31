@@ -46,6 +46,19 @@ export class ApiService {
     );
   }
 
+  put<T>(endpoint: string, data: any): Observable<T> {
+    console.log(`🌐 PUT ${endpoint}`, data);
+    return this.getAuthHeaders().pipe(
+      switchMap((headers) =>
+        this.http.put<T>(`${this.backendUrl}${endpoint}`, data, { headers })
+      ),
+      tap({
+        next: (response) => console.log(`✅ PUT ${endpoint} réussi:`, response),
+        error: (error) => console.error(`❌ PUT ${endpoint} échoué:`, error),
+      })
+    );
+  }
+
   delete<T>(endpoint: string): Observable<T> {
     console.log(`🌐 DELETE ${endpoint}`);
     return this.getAuthHeaders().pipe(

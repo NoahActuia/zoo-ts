@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { AnimauxModule } from './animaux/animaux.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { EnclosModule } from './enclos/enclos.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     AnimauxModule,
     AuthModule,
+    EnclosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

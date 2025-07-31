@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Animal } from './entities/animal.entity';
@@ -20,15 +20,33 @@ export class AnimauxService {
     return this.animalRepo.find();
   }
 
-  findOne(id: number) {
-    return this.animalRepo.findOneBy({ id });
+  async findOne(id: number) {
+    const animal = await this.animalRepo.findOneBy({ id });
+    if (!animal) {
+      throw new NotFoundException(`Animal avec l'ID ${id} non trouvé`);
+    }
+    return animal;
   }
 
-  findByName(name: string) {
-    return this.animalRepo.findOneBy({ name });
+  async findByName(name: string) {
+    const animal = await this.animalRepo.findOneBy({ name });
+    if (!animal) {
+      throw new NotFoundException(`Animal avec le nom ${name} non trouvé`);
+    }
+    return animal;
   }
 
-  deleteWithId(id: number) {
-    return this.animalRepo.delete(id);
+  async deleteWithId(id: number) {
+    const result = await this.animalRepo.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Animal avec l'ID ${id} non trouvé`);
+    }
+    return { message: `Animal avec l'ID ${id} supprimé avec succès` };
+  }
+
+  async soignerAnimal(id: number) {
+    const animal = await this.findOne(id);
+    animal.health = 100;
+    return this.animalRepo.save(animal);
   }
 }
